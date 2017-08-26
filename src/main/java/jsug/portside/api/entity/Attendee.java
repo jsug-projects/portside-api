@@ -24,5 +24,11 @@ public class Attendee {
 	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+
+	public void assignEmail(String email) {
+		this.email = email;
+		
 	}	
 }

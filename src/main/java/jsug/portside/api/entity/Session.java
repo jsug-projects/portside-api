@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Session {
@@ -21,6 +22,7 @@ public class Session {
 	@Column(columnDefinition = "binary(16)")	
 	public UUID id;
 	
+	@NotEmpty
 	public String title;
 	public String description;
 	public String speaker;
@@ -30,6 +32,10 @@ public class Session {
 	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public void updateId(UUID id) {
+		this.id = id;
 	}	
 	
 }

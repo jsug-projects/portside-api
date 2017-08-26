@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,9 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
+
 import jsug.portside.api.dto.AttendRequestForm;
 import jsug.portside.api.dto.SessionWithAttendeeCountDto;
+import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
+import jsug.portside.api.entity.SessionAttendee;
+import jsug.portside.api.repository.AttendeeRepository;
+import jsug.portside.api.repository.SessionAttendeeRepository;
 import jsug.portside.api.repository.SessionRepository;
 
 @RestController
@@ -30,51 +37,63 @@ public class PortsideController {
 	@Autowired
 	SessionRepository sessionRepository;
 	
+	@Autowired
+	AttendeeRepository attendeeRepository;
+	
+	@Autowired
+	SessionAttendeeRepository sessionAttendeeRepository;
+	
 	@GetMapping("/sessions")
 	public List<Session> getAllSessions() {	
-		//return sessionRepository.findAll();
-		List<Session> list = new ArrayList<>();
-		for (int i=0; i<10; i++) {
-			list.add(DummyData.createSession(i));
-		}
-		return list;
-
+		return Lists.newArrayList(sessionRepository.findAll());
 	}
 	@GetMapping("/sessionsWithAttendeeCount")
 	public List<SessionWithAttendeeCountDto> getAllSessionWithAttendeeCounts() {
 		
-		List<SessionWithAttendeeCountDto> list = new ArrayList<>();
-		for (int i=0; i<10; i++) {
-			list.add(DummyData.createSessionDto(i));
-		}
-		return list;
+		List<SessionWithAttendeeCountDto> list = sessionRepository.findSessionsWithAttendeeCount();
+		
+		return list; 
 	}
 	
-	
-	
+		
 	@PostMapping("/sessions")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerSession(@Validated @RequestBody Session session) {
 		
-		System.out.println("登録しました="+session);
-		
+		sessionRepository.save(session);
 		
 	}
 
 	@PutMapping("/sessions/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateSession(@Validated @RequestBody Session session) {
-
-		System.out.println("更新しました="+session);
-
+	public void updateSession(@Validated @RequestBody Session session, @PathVariable UUID id) {
 		
+		if (session.id == null) {
+			session.updateId(id);
+		}		
+		sessionRepository.save(session);
 	}
 	
 	
 	@PostMapping("/attendees")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void attend(@Validated @RequestBody AttendRequestForm form) {
-		System.out.println("登録しました="+form);
+		
+		Attendee attendee = new Attendee();
+		attendee.assignEmail(form.email);
+		attendeeRepository.save(attendee);
+				
+		Iterable<Session> sessions = sessionRepository.findAll(form.ids);
+		
+		if (form.ids.size() != Lists.newArrayList(sessions).size()) {
+			throw new RuntimeException("invalid session id. expected size "+form.ids.size()+" but "+Lists.newArrayList(sessions).size());
+		}
+		
+		for (Session session : sessions) {
+			SessionAttendee sessionAttendee = new SessionAttendee();
+			sessionAttendee.assign(session, attendee);
+			sessionAttendeeRepository.save(sessionAttendee);
+		}
 	}
 	
 	

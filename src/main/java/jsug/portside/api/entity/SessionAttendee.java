@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SessionAttendee {
 
@@ -23,6 +25,7 @@ public class SessionAttendee {
 	
 	@ManyToOne
 	@JoinColumn(name="session_id")
+	@JsonIgnore
 	public Session session;
 	
 	@ManyToOne
@@ -32,6 +35,13 @@ public class SessionAttendee {
 	
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+
+	public void assign(Session session, Attendee attendee) {
+		this.session = session;
+		this.attendee = attendee;
+		
 	}	
 
 }
