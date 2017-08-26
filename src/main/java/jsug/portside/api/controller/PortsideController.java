@@ -74,6 +74,11 @@ public class PortsideController {
 		sessionRepository.save(session);
 	}
 	
+	@GetMapping("/attendees")
+	public List<Attendee> getAllAttendees() {
+		return Lists.newArrayList(attendeeRepository.findAll());
+	}
+	
 	
 	@PostMapping("/attendees")
 	@ResponseStatus(HttpStatus.CREATED)
