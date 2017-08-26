@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import jsug.portside.api.dto.SessionWithAttendeeCountDto;
 import jsug.portside.api.entity.Session;
 
 @RestController
+//@CrossOrigin
 public class PortsideApiController {
 
 	@GetMapping("/sessions")
