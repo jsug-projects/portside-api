@@ -1,0 +1,5 @@
+applications:
+- name: portside-api
+  buildpack: https://github.com/cloudfoundry/java-buildpack#v3.19
+  memory: 512m
+  path: target/portside-api-0.0.1-SNAPSHOT.jar
