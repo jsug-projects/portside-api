@@ -11,7 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AdminControllerTest {
+public class PortsideApiControllerTest {
 
 	private MockMvc mockMvc;
 

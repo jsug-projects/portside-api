@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import jsug.portside.api.dto.AttendRequestForm;
 import jsug.portside.api.dto.SessionWithAttendeeCountDto;
 import jsug.portside.api.entity.Session;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+public class PortsideApiController {
 
 	@GetMapping("/sessions")
 	public List<Session> getAllSessions() {
 		
 		List<Session> list = new ArrayList<>();
 		for (int i=0; i<10; i++) {
-			list.add(createSession(i));
+			list.add(DummyData.createSession(i));
 		}
 		return list;
 	}
@@ -37,29 +37,14 @@ public class AdminController {
 		
 		List<SessionWithAttendeeCountDto> list = new ArrayList<>();
 		for (int i=0; i<10; i++) {
-			list.add(createSessionDto(i));
+			list.add(DummyData.createSessionDto(i));
 		}
 		return list;
 	}
 	
 	
-	private Session createSession(int i) {
-		Session session = new Session();
-		session.id = UUID.randomUUID();
-		session.title = "ダミーセッション"+i;
-		session.speaker = "ダミースピーカー"+i;
-		session.description = "ダミー概要"+i;
-		return session;		
-	}
 	
-	private SessionWithAttendeeCountDto createSessionDto(int i) {
-		SessionWithAttendeeCountDto dto = new SessionWithAttendeeCountDto();
-		dto.session = createSession(i);
-		dto.attendeeCount = i;
-		return dto;
-	}
-	
-	@PostMapping("/session")
+	@PostMapping("/sessions")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerSession(@Validated @RequestBody Session session) {
 		
@@ -68,7 +53,7 @@ public class AdminController {
 		
 	}
 
-	@PutMapping("/session/{id}")
+	@PutMapping("/sessions/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateSession(@Validated @RequestBody Session session) {
 
@@ -76,6 +61,14 @@ public class AdminController {
 
 		
 	}
+	
+	
+	@PostMapping("/attendees")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void attend(@Validated @RequestBody AttendRequestForm form) {
+		System.out.println("登録しました="+form);
+	}
+	
 	
 	
 //	@PostMapping("/login")
