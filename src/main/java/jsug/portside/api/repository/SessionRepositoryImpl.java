@@ -30,13 +30,9 @@ public class SessionRepositoryImpl implements SessionRepositoryCustom {
 		for (Session session : sessions) {
 			SessionWithAttendeeCountDto  dto = new SessionWithAttendeeCountDto();
 			dto.session = session;
-			dto.attendeeCount = session.sessionAttendees.size();
+			dto.attendeeCount = session.attendees.size();
 			list.add(dto);
 		}
-		
-		
-		
-			  
 			  
 		return list;
 		

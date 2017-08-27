@@ -3,6 +3,7 @@ package jsug.portside.api.repository;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,19 +14,18 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.common.collect.Lists;
 
 import jsug.portside.api.dto.SessionWithAttendeeCountDto;
+import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
-import jsug.portside.api.entity.SessionAttendee;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class SessionRepositoryTest {
+public class SessionRepositoryImplTest {
 
 	@Autowired
 	TestEntityManager em;
@@ -33,16 +33,32 @@ public class SessionRepositoryTest {
 	@Autowired
 	SessionRepository target;
 
+	Attendee attendeeFixture;
+	
 	@Before
 	public void setup() {
+		List<Session> sessions = new ArrayList<>();
 		for (int i=0; i<10; i++) {
 			Session session = createSession(i);
 			em.persist(session);
-			for (int j=0; j<5; j++) {
-				SessionAttendee sa = createSessionAttendee(i, session);
-				em.persist(sa);
+			sessions.add(session);
+		}
+		List<Attendee> attendees = new ArrayList<>();
+		for (int i=0; i<5; i++) {
+			Attendee attendee = createAttendee(i);
+			em.persist(attendee);
+			attendees.add(attendee);
+			
+			if (i==0) {
+				attendeeFixture = attendee;
 			}
 		}
+		for (Session session : sessions) {
+			for (Attendee attendee: attendees) {
+				session.attendees.add(attendee);
+			}
+		}
+		
 		em.flush();
 		em.clear();
 	}
@@ -54,20 +70,12 @@ public class SessionRepositoryTest {
 		return session;		
 	}
 	
-	private SessionAttendee createSessionAttendee(int i, Session session) {
-		SessionAttendee sa = new SessionAttendee();
-		sa.session = session;
-		return sa;
+	private Attendee createAttendee(int i) {
+		Attendee attendee = new Attendee();
+		attendee.email = "foo"+i+"@example.com";
+		return attendee;
 	}
-	
-	
-	private SessionWithAttendeeCountDto createSessionDto(int i) {
-		SessionWithAttendeeCountDto dto = new SessionWithAttendeeCountDto();
-		dto.session = createSession(i);
-		dto.attendeeCount = i;
-		return dto;
-	}
-	
+		
 	
 	@Test
 	public void testFindAll() throws Exception {
@@ -84,4 +92,10 @@ public class SessionRepositoryTest {
 		
 	}
 
+	@Test
+	public void testFindByAttendeesId() throws Exception {
+		List<Session> list = target.findByAttendeesId(attendeeFixture.id);
+		assertThat(list.size(), is(10));
+	}
+	
 }

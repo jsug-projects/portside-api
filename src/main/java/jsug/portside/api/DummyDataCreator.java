@@ -1,12 +1,12 @@
 package jsug.portside.api;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
-import jsug.portside.api.entity.SessionAttendee;
 import jsug.portside.api.repository.AttendeeRepository;
-import jsug.portside.api.repository.SessionAttendeeRepository;
 import jsug.portside.api.repository.SessionRepository;
 
 public class DummyDataCreator {
@@ -17,10 +17,8 @@ public class DummyDataCreator {
 	@Autowired
 	AttendeeRepository attendeeRepository;
 	
-	@Autowired
-	SessionAttendeeRepository sessionAttendeeRepository;
 
-	
+	@Transactional
 	public void createDummyData() {
 		Session fixture = null;
 		for (int i=0; i<3; i++) {
@@ -35,10 +33,7 @@ public class DummyDataCreator {
 		attendee.assignEmail("foo@example.com");
 		attendeeRepository.save(attendee);
 		
-		SessionAttendee sa = new SessionAttendee();
-		sa.assign(fixture, attendee);
-		sessionAttendeeRepository.save(sa);
-		
+		fixture.attendees.add(attendee);
 		
 	}
 	public static Session createSession(int i) {
