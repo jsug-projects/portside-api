@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import com.google.common.collect.Lists;
 
 import jsug.portside.api.dto.AttendRequestForm;
 import jsug.portside.api.dto.SessionWithAttendeeCountDto;
+import jsug.portside.api.dto.UpdateAttendRequestForm;
 import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
 import jsug.portside.api.entity.SessionAttendee;
@@ -47,6 +49,7 @@ public class PortsideController {
 	public List<Session> getAllSessions() {	
 		return Lists.newArrayList(sessionRepository.findAll());
 	}
+	
 	@GetMapping("/sessionsWithAttendeeCount")
 	public List<SessionWithAttendeeCountDto> getAllSessionWithAttendeeCounts() {
 		
@@ -101,6 +104,31 @@ public class PortsideController {
 		}
 	}
 	
+	@PutMapping("/attendees/{id}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void updateAttend(@Validated @RequestBody UpdateAttendRequestForm form, @PathVariable UUID id) {
+				
+		Attendee attendee = attendeeRepository.findOne(id);
+		
+		List<SessionAttendee> currentSessionAttendees = sessionAttendeeRepository.findByAttendeeId(attendee.id);
+		
+		for(SessionAttendee sa : currentSessionAttendees) {
+			sessionAttendeeRepository.delete(sa);
+		}
+		
+		Iterable<Session> sessions = sessionRepository.findAll(form.ids);
+		
+		if (form.ids.size() != Lists.newArrayList(sessions).size()) {
+			throw new RuntimeException("invalid session id. expected size "+form.ids.size()+" but "+Lists.newArrayList(sessions).size());
+		}
+		
+		
+		for (Session session : sessions) {
+			SessionAttendee sessionAttendee = new SessionAttendee();
+			sessionAttendee.assign(session, attendee);
+			sessionAttendeeRepository.save(sessionAttendee);
+		}
+	}
 	
 	
 //	@PostMapping("/login")
