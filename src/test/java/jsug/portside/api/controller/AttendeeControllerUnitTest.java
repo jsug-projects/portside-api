@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
+import org.mockito.internal.matchers.StartsWith;
+import org.springframework.http.ResponseEntity;
 
 import jsug.portside.api.dto.AttendRequestForm;
 import jsug.portside.api.entity.Attendee;
@@ -14,11 +16,13 @@ import jsug.portside.api.repository.SessionRepository;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
-public class PortsideControllerUnitTest {
+public class AttendeeControllerUnitTest {
 
 	@Tested
-	PortsideController target;
+	AttendeeController target;
 	
 	@Injectable
 	SessionRepository sessionRepository;
@@ -73,7 +77,8 @@ public class PortsideControllerUnitTest {
 		ids.add(UUID.randomUUID());
 		ids.add(UUID.randomUUID());
 		form.ids = ids;
-		target.attend(form);
+		ResponseEntity<?> res = target.attend(form, "http://xxx");
+		assertThat(res.getHeaders().getLocation().toString(), startsWith("http://xxx"));
 		
 	}
 	
@@ -84,7 +89,7 @@ public class PortsideControllerUnitTest {
 			result = new Attendee();
 			target.updateAttend((Attendee)any, (List<UUID>)any);
 		}};
-		target.attend(new AttendRequestForm());
+		target.attend(new AttendRequestForm(), "http://xxx");
 		
 	}
 	

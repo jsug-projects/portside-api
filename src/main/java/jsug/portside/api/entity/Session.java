@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 
 @Entity
 public class Session {
@@ -40,15 +41,19 @@ public class Session {
 	@JsonIgnore
 	public List<Attendee> attendees = new ArrayList<>();
 	
+	@ManyToMany
+	@JoinTable(
+      name="session_speaker",
+      joinColumns=@JoinColumn(name="session_id", referencedColumnName="id"),
+      inverseJoinColumns=@JoinColumn(name="speaker_id", referencedColumnName="id"))
+	public List<Speaker> speakers = new ArrayList<>();
 
+	
+	
 	public void updateId(UUID id) {
 		this.id = id;
 	}	
 	
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
 	public void attended(Attendee attendee) {
 		this.attendees.add(attendee);		
 	}
@@ -64,4 +69,20 @@ public class Session {
 			attendees.remove(idx);
 		}
 	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+
+	public void assignSpeakers(List<Speaker> speakers) {
+		this.speakers.clear();
+		this.speakers.addAll(speakers);		
+	}
+	public void assignSpeakers(Speaker... speakers) {
+		this.speakers.clear();
+		this.speakers.addAll(Lists.newArrayList(speakers));		
+	}
+
+	
 }
