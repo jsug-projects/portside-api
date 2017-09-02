@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "flyway.baseline-on-migrate=true")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionControllerTestContainer {
 
     @LocalServerPort
