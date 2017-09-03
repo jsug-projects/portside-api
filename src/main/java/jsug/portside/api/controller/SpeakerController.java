@@ -78,7 +78,7 @@ public class SpeakerController {
 	@Transactional
 	public void registerImage(@PathVariable UUID id, @RequestParam MultipartFile data) throws Exception {
 		Speaker speaker = speakerRepository.findOne(id);
-		speaker.image = data.getBytes();
+		speaker.updateImage(data.getBytes());
 	}
 	
 	@GetMapping("/{id}/image")

@@ -33,7 +33,7 @@ import jsug.portside.api.entity.Session;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DeplicatedControllerTest {
+public class DeprecatedControllerTest {
 
 	@Autowired
 	private MockMvc mvc;

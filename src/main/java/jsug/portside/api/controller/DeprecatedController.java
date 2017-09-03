@@ -10,7 +10,7 @@ import jsug.portside.api.dto.SessionWithAttendeeCountDto;
 import jsug.portside.api.repository.SessionRepository;
 
 @RestController
-public class DeplicatedController {
+public class DeprecatedController {
 
 	@Autowired
 	SessionRepository sessionRepository;

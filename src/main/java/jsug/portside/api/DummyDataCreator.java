@@ -3,6 +3,8 @@ package jsug.portside.api;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
 import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
@@ -23,10 +25,12 @@ public class DummyDataCreator {
 	SpeakerRepository speakerRepository;
 
 	@Transactional
-	public void createDummyData() {
+	public void createDummyData() throws Exception {
 		Speaker speaker1 = createSpeaker(0);
+		speaker1.updateImage(FileCopyUtils.copyToByteArray(new ClassPathResource("/flaky.png").getInputStream()));
 		speakerRepository.save(speaker1);
 		Speaker speaker2 = createSpeaker(1);		
+		speaker2.updateImage(FileCopyUtils.copyToByteArray(new ClassPathResource("/slack.png").getInputStream()));
 		speakerRepository.save(speaker2);
 				
 		Session sessionFixture = null;

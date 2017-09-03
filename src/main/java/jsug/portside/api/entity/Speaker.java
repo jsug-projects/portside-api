@@ -38,5 +38,10 @@ public class Speaker {
 	public void updateId(UUID id) {
 		this.id = id;
 	}
+
+
+	public void updateImage(byte[] bytes) {
+		this.image = bytes;		
+	}
 	
 }
