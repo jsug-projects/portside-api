@@ -24,6 +24,9 @@ public class DummyDataCreator {
 
 	@Transactional
 	public void createDummyData() {
+		if (attendeeRepository.findByEmail("foo@example.com") != null) {
+			return;
+		}
 		Speaker speaker1 = createSpeaker(0);
 		speakerRepository.save(speaker1);
 		Speaker speaker2 = createSpeaker(1);		
