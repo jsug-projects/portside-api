@@ -1,7 +1,8 @@
 applications:
 - name: portside-api
   buildpack: https://github.com/cloudfoundry/java-buildpack#v3.19
-  memory: 512m
+  memory: 1g
   path: target/portside-api-0.0.1-SNAPSHOT.jar
   services:
   - portside-db # cf create-service p-mysql 100mb-dev portside-db
+  - portside-service-registry # cf create-service p-service-registry standard portside-service-registry
