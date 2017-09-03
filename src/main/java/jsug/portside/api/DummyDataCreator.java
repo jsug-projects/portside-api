@@ -26,6 +26,9 @@ public class DummyDataCreator {
 
 	@Transactional
 	public void createDummyData() throws Exception {
+		if (attendeeRepository.findByEmail("foo@example.com") != null) {
+			return;
+		}
 		Speaker speaker1 = createSpeaker(0);
 		speaker1.updateImage(FileCopyUtils.copyToByteArray(new ClassPathResource("/flaky.png").getInputStream()));
 		speakerRepository.save(speaker1);
