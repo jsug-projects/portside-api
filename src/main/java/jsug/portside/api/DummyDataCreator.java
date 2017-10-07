@@ -1,8 +1,10 @@
 package jsug.portside.api;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 
@@ -24,17 +26,28 @@ public class DummyDataCreator {
 	@Autowired
 	SpeakerRepository speakerRepository;
 
+	@Autowired(required=false)
+	ServletContext servletContext;
+	
 	@Transactional
 	public void createDummyData() throws Exception {
 		if (attendeeRepository.findByEmail("foo@example.com") != null) {
 			return;
 		}
+		
+		String servletContextPath = "";
+		if (servletContext != null) {
+			servletContextPath = servletContext.getContextPath();
+		}
+		
 		Speaker speaker1 = createSpeaker(0);
 		speaker1.updateImage(FileCopyUtils.copyToByteArray(new ClassPathResource("/flaky.png").getInputStream()));
 		speakerRepository.save(speaker1);
+		speaker1.updateImageUrl(servletContextPath + "/speakers/"+speaker1.id+"/image");
 		Speaker speaker2 = createSpeaker(1);		
 		speaker2.updateImage(FileCopyUtils.copyToByteArray(new ClassPathResource("/slack.png").getInputStream()));
 		speakerRepository.save(speaker2);
+		speaker2.updateImageUrl(servletContextPath + "/speakers/"+speaker2.id+"/image");
 				
 		Session sessionFixture = null;
 		for (int i=0; i<3; i++) {
