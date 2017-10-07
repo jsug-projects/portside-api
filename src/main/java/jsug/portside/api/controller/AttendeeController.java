@@ -4,11 +4,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +26,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.google.common.collect.Lists;
 
 import jsug.portside.api.dto.AttendRequestForm;
-import jsug.portside.api.dto.SessionWithAttendeeCountDto;
+import jsug.portside.api.dto.MailData;
 import jsug.portside.api.dto.UpdateAttendRequestForm;
 import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
 import jsug.portside.api.repository.AttendeeRepository;
 import jsug.portside.api.repository.SessionRepository;
+import jsug.portside.api.service.MailTemplateService;
 
 @RestController
 @RequestMapping("/attendees")
@@ -40,6 +43,13 @@ public class AttendeeController {
 
 	@Autowired
 	SessionRepository sessionRepository;
+	
+	@Autowired
+	Source source;
+	
+	@Autowired
+	MailTemplateService mailTemplateService;
+	
 	
 	@GetMapping
 	public List<Attendee> getAllAttendees() {
@@ -53,15 +63,21 @@ public class AttendeeController {
 			@Value("#{request.requestURL}") String url) {
 
 		Attendee attendee = attendeeRepository.findByEmail(form.email);
+		Iterable<Session> sessions = sessionRepository.findAll(form.ids);
+		
+		if (form.ids.size() != Lists.newArrayList(sessions).size()) {
+			throw new RuntimeException("invalid session id. expected size " + form.ids.size() + " but "
+					+ Lists.newArrayList(sessions).size());
+		}
+
 		if (attendee != null) {
-			updateAttend(attendee, form.ids);
+			updateAttend(attendee, sessions);
 		} else {
 
 			attendee = new Attendee();
 			attendee.assignEmail(form.email);
 			attendeeRepository.save(attendee);
 	
-			Iterable<Session> sessions = sessionRepository.findAll(form.ids);
 	
 			if (form.ids.size() != Lists.newArrayList(sessions).size()) {
 				throw new RuntimeException("invalid session id. expected size " + form.ids.size() + " but "
@@ -79,22 +95,24 @@ public class AttendeeController {
 				.buildAndExpand(attendee.id)
 				.toUri();
 
+
+		String subject = mailTemplateService.createThankyouMailSubject();
+		String body = mailTemplateService.createThankyouMailBody(attendee, Lists.newArrayList(sessions));
+		
+		
+		Message<MailData> message = MessageBuilder.withPayload(
+				new MailData(subject, body, form.email)).build();
+		this.source.output().send(message);
+
 		return ResponseEntity.created(location).build();
 		
 	}
 
-	void updateAttend(Attendee attendee, List<UUID> sessionIds) {
+	void updateAttend(Attendee attendee, Iterable<Session> sessions) {
 		List<Session> currentAttendSessions = sessionRepository.findByAttendeesId(attendee.id);
 
 		for (Session session : currentAttendSessions) {
 			session.unAttended(attendee);
-		}
-
-		Iterable<Session> sessions = sessionRepository.findAll(sessionIds);
-
-		if (sessionIds.size() != Lists.newArrayList(sessions).size()) {
-			throw new RuntimeException("invalid session id. expected size " + sessionIds.size() + " but "
-					+ Lists.newArrayList(sessions).size());
 		}
 
 		for (Session session : sessions) {
@@ -112,8 +130,16 @@ public class AttendeeController {
 	@Transactional
 	public void updateAttend(@Validated @RequestBody UpdateAttendRequestForm form, @PathVariable UUID id) {
 
+		Iterable<Session> sessions = sessionRepository.findAll(form.ids);
+		
+		if (form.ids.size() != Lists.newArrayList(sessions).size()) {
+			throw new RuntimeException("invalid session id. expected size " + form.ids.size() + " but "
+					+ Lists.newArrayList(sessions).size());
+		}
+
 		Attendee attendee = attendeeRepository.findOne(id);
-		updateAttend(attendee, form.ids);
+		
+		updateAttend(attendee, sessions);
 
 	}
 

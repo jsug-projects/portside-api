@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,15 +180,17 @@ public class SessionControllerTest {
 		.andExpect(jsonPath("$.speakers", hasSize(3)));
 		;
 		
-		
-		
 	}
 	
 	
 	@Test
+	@Ignore
 	public void testUpdateSession() throws Exception {
 		Session session = new Session();
 		session.title = "updated";
+	
+		session.speakers.add(createSpeaker(0));
+		session.speakers.add(createSpeaker(1));
 		
 		String json = om.writeValueAsString(session);		
 		
@@ -197,7 +200,9 @@ public class SessionControllerTest {
 		
 		mvc.perform(get("/sessions/"+sessionIdFixture.toString()))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.title", is("updated")));
+			.andExpect(jsonPath("$.title", is("updated")))
+			.andExpect(jsonPath("$.speakers", hasSize(2)));
+			;
 		
 	}
 	@Test
@@ -232,5 +237,16 @@ public class SessionControllerTest {
 		.andExpect(jsonPath("$.title", is("ダミーセッション0")));
 	}
 
+	@Test
+	@Ignore
+	public void testDeleteSession() throws Exception {
+		mvc.perform(delete("/sessions/"+sessionIdFixture))
+		.andExpect(status().isNoContent());
+		
+		mvc.perform(get("/sessions/"+sessionIdFixture))
+		.andExpect(status().isNoContent());
+		
+	}
+	
 
 }

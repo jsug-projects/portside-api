@@ -1,6 +1,7 @@
 package jsug.portside.api.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,8 +9,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,6 +65,10 @@ public class SessionController {
 		return list;
 	}
 
+	
+	
+	
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@Transactional
@@ -83,12 +91,29 @@ public class SessionController {
 
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateSession(@Validated @RequestBody Session session, @PathVariable UUID id) {
+	@Transactional
+	public void updateSession(@Validated @RequestBody Session newSession, @PathVariable UUID id) {
 
-		if (session.id == null) {
-			session.updateId(id);
+		if (newSession.id == null) {
+			newSession.updateId(id);
 		}
-		sessionRepository.save(session);
+
+		List<Speaker> newSpeakers = new ArrayList<>();
+		for (Speaker speaker : newSession.speakers) {
+			newSpeakers.add(speakerRepository.save(speaker));
+		}
+		Session managedSession = sessionRepository.findOne(id);
+		List<Speaker> oldSpeakers = Lists.newArrayList(managedSession.speakers);
+		managedSession.setSpeakers(newSpeakers);
+		//List<Speaker> oldSpeakers = managedSession.assignSpeakers(newSpeakers);
+
+		//TODO 削除時にForenkeyエラーが発生する
+//		for (Speaker speaker : oldSpeakers) {
+//			speakerRepository.delete(speaker);
+//		}
+
+		
+
 	}
 
 	@PutMapping("/{id}/assignSpeakers")
@@ -106,5 +131,30 @@ public class SessionController {
 		session.assignSpeakers(speakers);		
 		
 	}
+	
+	@Autowired
+	PlatformTransactionManager tx;
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	//@Transactional
+	public void deleteSession(@PathVariable UUID id) {
+		TransactionStatus st = tx.getTransaction(null);
+		Session session = sessionRepository.findOne(id);
+		List<Speaker> speakers = Lists.newArrayList(session.speakers);
+		sessionRepository.delete(session);
+		tx.commit(st);
+		
+		st = tx.getTransaction(null);
+		//session = sessionRepository.findOne(id);
+		for (Speaker speaker : speakers) {
+			speakerRepository.delete(speaker);
+		}
+		
+		tx.commit(st);
+		
+		System.out.println();
+	}
+	
 	
 }

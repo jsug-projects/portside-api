@@ -48,6 +48,10 @@ public class Session {
       inverseJoinColumns=@JoinColumn(name="speaker_id", referencedColumnName="id"))
 	public List<Speaker> speakers = new ArrayList<>();
 
+	public void setSpeakers(List<Speaker> speakers) {
+		this.speakers = speakers;
+	}
+	
 	
 	
 	public void updateId(UUID id) {
@@ -74,15 +78,32 @@ public class Session {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-
-	public void assignSpeakers(List<Speaker> speakers) {
-		this.speakers.clear();
-		this.speakers.addAll(speakers);		
+	
+	public List<Speaker> assignSpeakers(List<Speaker> speakers) {
+		List<Speaker> ret = Lists.newArrayList(this.speakers);
+		//this.speakers.clear();
+		this.speakers = new ArrayList<>();
+		this.speakers.addAll(speakers);
+		return ret;
 	}
 	public void assignSpeakers(Speaker... speakers) {
 		this.speakers.clear();
 		this.speakers.addAll(Lists.newArrayList(speakers));		
 	}
+
+//	public void unAssingnSeaker(Speaker speaker) {
+//		int idx = -1;
+//		for (int i=0; i<speakers.size(); i++) {
+//			if (speaker.id.equals(speakers.get(i).id)) {
+//				idx = i;
+//			}
+//		}
+//		if (idx != -1) {
+//			speakers.remove(idx);
+//		}
+//		
+//	}
+
 
 	
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 import org.mockito.internal.matchers.StartsWith;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.ResponseEntity;
 
 import jsug.portside.api.dto.AttendRequestForm;
@@ -13,6 +14,7 @@ import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
 import jsug.portside.api.repository.AttendeeRepository;
 import jsug.portside.api.repository.SessionRepository;
+import jsug.portside.api.service.MailTemplateService;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
@@ -30,6 +32,9 @@ public class AttendeeControllerUnitTest {
 	@Injectable
 	AttendeeRepository attendeeRepository;
 	
+	@Injectable Source source;
+	
+	@Injectable MailTemplateService mailTemplateService;
 	
 	@Test
 	public void testUpdateAttend(@Injectable Session s1, @Injectable Session s2) {
@@ -40,19 +45,16 @@ public class AttendeeControllerUnitTest {
 			list.add(s2);
 			result = list;
 						
-			sessionRepository.findAll((List<UUID>)any);
-			result = list;
-			
 			s1.unAttended((Attendee)any);
 			s1.attended((Attendee)any);
 			s2.unAttended((Attendee)any);
 			s2.attended((Attendee)any);
 		}};
 		
-		List<UUID> ids = new ArrayList<>();
-		ids.add(UUID.randomUUID());
-		ids.add(UUID.randomUUID());
-		target.updateAttend(new Attendee(), ids);
+		List<Session> list = new ArrayList<>();
+		list.add(s1);
+		list.add(s2);
+		target.updateAttend(new Attendee(), list);
 		
 	}
 	
@@ -87,7 +89,7 @@ public class AttendeeControllerUnitTest {
 		new Expectations(target) {{
 			attendeeRepository.findByEmail((String)any);
 			result = new Attendee();
-			target.updateAttend((Attendee)any, (List<UUID>)any);
+			target.updateAttend((Attendee)any, (Iterable<Session>)any);
 		}};
 		target.attend(new AttendRequestForm(), "http://xxx");
 		

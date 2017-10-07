@@ -6,3 +6,4 @@ applications:
   services:
   - portside-db # cf create-service p-mysql 100mb-dev portside-db
   - portside-service-registry # cf create-service p-service-registry standard portside-service-registry
+  - portside-rabbit # cf create-service p-rabbitmq standard portside-rabbit  

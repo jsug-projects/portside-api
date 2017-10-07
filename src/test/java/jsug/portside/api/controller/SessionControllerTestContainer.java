@@ -54,7 +54,7 @@ public class SessionControllerTestContainer {
 		for (int i=0; i<10; i++) {
 			Session session = createSession(i);
 			String location = restTemplate.postForLocation(baseUrl+"/sessions", session).toString();
-			session.id = UUID.fromString(location.substring(location.lastIndexOf('/')+1));
+			session.id = TestUtils.getFromLocation(location); 
 			sessions.add(session);
 		}
 		
