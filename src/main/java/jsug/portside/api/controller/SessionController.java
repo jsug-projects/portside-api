@@ -63,8 +63,13 @@ public class SessionController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@Transactional
 	public ResponseEntity<?> registerSession(@Validated @RequestBody Session session) {
 
+		for (Speaker speaker : session.speakers) {
+			speakerRepository.save(speaker);
+		}
+		
 		sessionRepository.save(session);
 
 		URI location = ServletUriComponentsBuilder

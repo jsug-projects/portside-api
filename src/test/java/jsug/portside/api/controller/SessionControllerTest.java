@@ -160,6 +160,30 @@ public class SessionControllerTest {
 		.andExpect(jsonPath("$[0].attendeeCount", is(5)))
 		.andExpect(jsonPath("$[0].session.speakers", hasSize(7)));
 	}
+	
+	@Test
+	public void testRegisterSession() throws Exception {
+		Session session = createSession(0);
+		session.speakers.add(createSpeaker(0));
+		session.speakers.add(createSpeaker(1));
+		session.speakers.add(createSpeaker(2));
+		
+		String json = om.writeValueAsString(session);		
+		System.out.println(json);
+		String location = mvc.perform(post("/sessions").content(json).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated()).andReturn().getResponse().getHeader("Location");
+		UUID id = TestUtils.getFromLocation(location);
+		
+		mvc.perform(get("/sessions/"+id))
+		.andExpect(jsonPath("$.title", is("ダミーセッション0")))
+		.andExpect(jsonPath("$.speakers", hasSize(3)));
+		;
+		
+		
+		
+	}
+	
+	
 	@Test
 	public void testUpdateSession() throws Exception {
 		Session session = new Session();
