@@ -76,7 +76,8 @@ public class SpeakerControllerTest {
 		UUID id = TestUtils.getFromLocation(location);
 		
 		mvc.perform(get("/speakers/"+id))
-		.andExpect(jsonPath("$.name", is("名前")));
+		.andExpect(jsonPath("$.name", is("名前")))
+		;
 				
 	}
 
@@ -124,6 +125,10 @@ public class SpeakerControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(content().bytes("foo".getBytes()));
 		
+		mvc.perform(get("/speakers/"+speakerIdFixture))
+		.andExpect(jsonPath("$.imageUrl", is("http://localhost/speakers/"+speakerIdFixture+"/image")))
+		;
+
 		
 	}
 	

@@ -16,7 +16,11 @@ public class TestUtils {
 		List<Map<String, Object>> tables = jt.queryForList("show tables");
 				
 		for (Map table : tables) {
-			jt.update("delete from " + table.get("TABLE_NAME"));
+			String tableName = (String)table.get("TABLE_NAME");
+			if (tableName.equalsIgnoreCase("schema_version")) {
+				continue;
+			}
+			jt.update("delete from " + tableName);
 		}
 		jt.update("SET REFERENTIAL_INTEGRITY TRUE");
 		

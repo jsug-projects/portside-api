@@ -28,6 +28,7 @@ public class Speaker {
 	public String name;
 	public String belongTo;
 	public String profile;
+	public String imageUrl;
 	
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
@@ -41,7 +42,11 @@ public class Speaker {
 
 
 	public void updateImage(byte[] bytes) {
-		this.image = bytes;		
+		this.image = bytes;
+	}
+	
+	public void updateImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 }

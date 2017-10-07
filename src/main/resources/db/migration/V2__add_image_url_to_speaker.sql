@@ -1,0 +1,1 @@
+ALTER TABLE speaker ADD COLUMN image_url VARCHAR(255);

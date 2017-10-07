@@ -103,7 +103,7 @@ public class SessionControllerTestContainer {
 	}
 	@Test
 	public void testGetAllSessionWithAttendeeCounts() throws Exception {
-		SessionWithAttendeeCountDto[] sessions = restTemplate.getForObject(baseUrl+"/sessionsWithAttendeeCount", SessionWithAttendeeCountDto[].class);
+		SessionWithAttendeeCountDto[] sessions = restTemplate.getForObject(baseUrl+"/sessions/withAttendeeCount", SessionWithAttendeeCountDto[].class);
 		assertThat(sessions.length, is(10));
 		assertThat(sessions[0].attendeeCount, is(5));
 	}

@@ -4,10 +4,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -76,15 +78,22 @@ public class SpeakerController {
 	@PostMapping("/{id}/image")
 	@ResponseStatus(HttpStatus.CREATED)	
 	@Transactional
-	public void registerImage(@PathVariable UUID id, @RequestParam MultipartFile data) throws Exception {
+	public void registerImage(@PathVariable UUID id, @RequestParam MultipartFile data, @Value("#{request.requestURL}") String url) throws Exception {
 		Speaker speaker = speakerRepository.findOne(id);
 		speaker.updateImage(data.getBytes());
+		String imageUrl = url;
+		speaker.updateImageUrl(imageUrl);
+		
 	}
 	
 	@GetMapping("/{id}/image")
-	public byte[] getImage(@PathVariable UUID id) {
+	public HttpEntity<byte[]> getImage(@PathVariable UUID id) {
 		Speaker speaker = speakerRepository.findOne(id);
-		return speaker.image;
+		byte[] image = speaker.image; 
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.IMAGE_JPEG);
+	    headers.setContentLength(image.length);
+	    return new HttpEntity<byte[]>(image, headers);
 	}
 	
 	
