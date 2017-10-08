@@ -1,5 +1,7 @@
 package jsug.portside.api.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Basic;
@@ -9,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,6 +38,9 @@ public class Speaker {
 	@JsonIgnore
 	public byte[] image;
 	
+	@JsonIgnore
+	@ManyToMany(mappedBy="speakers")
+	public List<Session> sessions = new ArrayList<>();
 	
 	public void updateId(UUID id) {
 		this.id = id;

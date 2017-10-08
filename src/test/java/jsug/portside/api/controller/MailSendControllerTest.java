@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jsug.portside.api.dto.AttendRequestForm;
+import jsug.portside.api.dto.UpdateAttendRequestForm;
 import jsug.portside.api.entity.Session;
 
 @RunWith(SpringRunner.class)
@@ -81,20 +82,11 @@ public class MailSendControllerTest {
 		TestUtils.resetDb(ds);
 	}
 	
-	
-//	@Test
-//	public void hi() throws Exception {
-//		restTemplate.postForObject("/", null, Void.class);
-//		Message message = messageCollector.forChannel(source.output()).poll(2,
-//				TimeUnit.SECONDS);
-//		assertThat(message.getPayload()).isEqualTo("{\"text\":\"こんにちは!!\"}");
-//	}
-	
 	@Test
 	public void testAttend() throws Exception {
 		
 		AttendRequestForm form = new AttendRequestForm();
-		form.email = "kouhei.toki@gmail.com";
+		form.email = "foo@example.com";
 		form.ids.add(sessionIdFixture1);
 				
 		String json = om.writeValueAsString(form);				
@@ -102,12 +94,26 @@ public class MailSendControllerTest {
 				.content(json).contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isCreated()).andReturn().getResponse().getHeader("Location");
 
+		UUID attendeeId = TestUtils.getFromLocation(location);
+		
 		Message message = messageCollector.forChannel(source.output()).poll(2,
+				TimeUnit.SECONDS);
+		assertThat((String)message.getPayload(), containsString("アンケートのご協力ありがとうございました"));
+
+				
+		UpdateAttendRequestForm uForm = new UpdateAttendRequestForm();
+		uForm.ids.add(sessionIdFixture1);
+				
+		json = om.writeValueAsString(uForm);				
+		mvc.perform(put("/attendees/"+attendeeId)
+				.content(json).contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNoContent());
+
+		message = messageCollector.forChannel(source.output()).poll(2,
 				TimeUnit.SECONDS);
 		assertThat((String)message.getPayload(), containsString("アンケートのご協力ありがとうございました"));
 		
 		
 	}
-	
 
 }

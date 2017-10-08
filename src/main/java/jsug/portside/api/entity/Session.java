@@ -48,11 +48,11 @@ public class Session {
       inverseJoinColumns=@JoinColumn(name="speaker_id", referencedColumnName="id"))
 	public List<Speaker> speakers = new ArrayList<>();
 
-	public void setSpeakers(List<Speaker> speakers) {
-		this.speakers = speakers;
+	public void updateState(Session newSession) {
+		this.title = newSession.title;
+		this.description = newSession.description;
+		this.speaker = newSession.speaker;
 	}
-	
-	
 	
 	public void updateId(UUID id) {
 		this.id = id;
@@ -79,30 +79,27 @@ public class Session {
 	}
 
 	
-	public List<Speaker> assignSpeakers(List<Speaker> speakers) {
-		List<Speaker> ret = Lists.newArrayList(this.speakers);
-		//this.speakers.clear();
-		this.speakers = new ArrayList<>();
+	public void assignSpeakers(List<Speaker> speakers) {
+		this.speakers.clear();
 		this.speakers.addAll(speakers);
-		return ret;
 	}
 	public void assignSpeakers(Speaker... speakers) {
-		this.speakers.clear();
-		this.speakers.addAll(Lists.newArrayList(speakers));		
+		assignSpeakers(Lists.newArrayList(speakers));
 	}
 
-//	public void unAssingnSeaker(Speaker speaker) {
-//		int idx = -1;
-//		for (int i=0; i<speakers.size(); i++) {
-//			if (speaker.id.equals(speakers.get(i).id)) {
-//				idx = i;
-//			}
-//		}
-//		if (idx != -1) {
-//			speakers.remove(idx);
-//		}
-//		
-//	}
+	public void unAssingnSeaker(Speaker speaker) {
+		int idx = -1;
+		for (int i=0; i<speakers.size(); i++) {
+			if (speaker.id.equals(speakers.get(i).id)) {
+				idx = i;
+			}
+		}
+		if (idx != -1) {
+			speakers.remove(idx);
+		}
+		
+	}
+
 
 
 	

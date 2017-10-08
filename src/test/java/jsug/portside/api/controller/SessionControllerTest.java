@@ -184,10 +184,11 @@ public class SessionControllerTest {
 	
 	
 	@Test
-	@Ignore
 	public void testUpdateSession() throws Exception {
 		Session session = new Session();
 		session.title = "updated";
+		session.description = "updatedDescription";
+		
 	
 		session.speakers.add(createSpeaker(0));
 		session.speakers.add(createSpeaker(1));
@@ -201,8 +202,17 @@ public class SessionControllerTest {
 		mvc.perform(get("/sessions/"+sessionIdFixture.toString()))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.title", is("updated")))
-			.andExpect(jsonPath("$.speakers", hasSize(2)));
+			.andExpect(jsonPath("$.description", is("updatedDescription")))
+			.andExpect(jsonPath("$.speakers", hasSize(2)))
 			;
+			
+		mvc.perform(get("/speakers/"+speakerIdFixture1))
+		.andExpect(status().isOk())
+		.andExpect(content().string(""));
+		mvc.perform(get("/speakers/"+speakerIdFixture2))
+		.andExpect(status().isOk())
+		.andExpect(content().string(""));
+			
 		
 	}
 	@Test
@@ -238,13 +248,19 @@ public class SessionControllerTest {
 	}
 
 	@Test
-	@Ignore
 	public void testDeleteSession() throws Exception {
 		mvc.perform(delete("/sessions/"+sessionIdFixture))
 		.andExpect(status().isNoContent());
 		
 		mvc.perform(get("/sessions/"+sessionIdFixture))
-		.andExpect(status().isNoContent());
+		.andExpect(status().isOk())
+		.andExpect(content().string(""));
+		mvc.perform(get("/speakers/"+speakerIdFixture1))
+		.andExpect(status().isOk())
+		.andExpect(content().string(""));
+		mvc.perform(get("/speakers/"+speakerIdFixture2))
+		.andExpect(status().isOk())
+		.andExpect(content().string(""));
 		
 	}
 	

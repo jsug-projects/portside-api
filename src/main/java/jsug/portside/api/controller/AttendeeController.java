@@ -97,8 +97,7 @@ public class AttendeeController {
 
 
 		String subject = mailTemplateService.createThankyouMailSubject();
-		String body = mailTemplateService.createThankyouMailBody(attendee, Lists.newArrayList(sessions));
-		
+		String body = mailTemplateService.createThankyouMailBody(attendee, Lists.newArrayList(sessions));		
 		
 		Message<MailData> message = MessageBuilder.withPayload(
 				new MailData(subject, body, form.email)).build();
@@ -140,7 +139,15 @@ public class AttendeeController {
 		Attendee attendee = attendeeRepository.findOne(id);
 		
 		updateAttend(attendee, sessions);
-
+		
+		
+		String subject = mailTemplateService.createThankyouMailSubject();
+		String body = mailTemplateService.createThankyouMailBody(attendee, Lists.newArrayList(sessions));		
+		
+		Message<MailData> message = MessageBuilder.withPayload(
+				new MailData(subject, body, attendee.email)).build();
+		this.source.output().send(message);
+		
 	}
 
 }

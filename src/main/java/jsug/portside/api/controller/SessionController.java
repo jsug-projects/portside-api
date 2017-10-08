@@ -94,25 +94,25 @@ public class SessionController {
 	@Transactional
 	public void updateSession(@Validated @RequestBody Session newSession, @PathVariable UUID id) {
 
-		if (newSession.id == null) {
-			newSession.updateId(id);
-		}
-
-		List<Speaker> newSpeakers = new ArrayList<>();
-		for (Speaker speaker : newSession.speakers) {
-			newSpeakers.add(speakerRepository.save(speaker));
-		}
 		Session managedSession = sessionRepository.findOne(id);
-		List<Speaker> oldSpeakers = Lists.newArrayList(managedSession.speakers);
-		managedSession.setSpeakers(newSpeakers);
-		//List<Speaker> oldSpeakers = managedSession.assignSpeakers(newSpeakers);
-
-		//TODO 削除時にForenkeyエラーが発生する
-//		for (Speaker speaker : oldSpeakers) {
-//			speakerRepository.delete(speaker);
-//		}
-
 		
+		managedSession.updateState(newSession);
+		
+		//delete old speaker
+		for (Speaker speaker : managedSession.speakers) {
+			for (Session speakerSession : speaker.sessions) {
+				if (speakerSession != managedSession) {
+					speakerSession.unAssingnSeaker(speaker);
+				}
+			}
+			speakerRepository.delete(speaker);
+		}
+
+		//insert new speaker
+		for (Speaker speaker : newSession.speakers) {
+			speakerRepository.save(speaker);
+		}
+		managedSession.assignSpeakers(newSession.speakers);		
 
 	}
 
@@ -132,28 +132,22 @@ public class SessionController {
 		
 	}
 	
-	@Autowired
-	PlatformTransactionManager tx;
-	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	//@Transactional
+	@Transactional
 	public void deleteSession(@PathVariable UUID id) {
-		TransactionStatus st = tx.getTransaction(null);
-		Session session = sessionRepository.findOne(id);
-		List<Speaker> speakers = Lists.newArrayList(session.speakers);
-		sessionRepository.delete(session);
-		tx.commit(st);
 		
-		st = tx.getTransaction(null);
-		//session = sessionRepository.findOne(id);
-		for (Speaker speaker : speakers) {
+		Session session = sessionRepository.findOne(id);		
+		for (Speaker speaker : session.speakers) {
+			for (Session speakerSession : speaker.sessions) {
+				if (speakerSession != session) {
+					speakerSession.unAssingnSeaker(speaker);
+				}
+			}
 			speakerRepository.delete(speaker);
 		}
+		sessionRepository.delete(session);
 		
-		tx.commit(st);
-		
-		System.out.println();
 	}
 	
 	
