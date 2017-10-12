@@ -92,7 +92,9 @@ public class SpeakerController {
 		byte[] image = speaker.image; 
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.IMAGE_JPEG);
-	    headers.setContentLength(image.length);
+	    if (image != null) {
+	    	headers.setContentLength(image.length);
+	    }
 	    return new HttpEntity<byte[]>(image, headers);
 	}
 	
