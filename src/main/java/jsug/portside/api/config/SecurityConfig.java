@@ -2,53 +2,53 @@ package jsug.portside.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
+@ConditionalOnProperty({ "admin.user", "admin.pass" })
 @Configuration
 @EnableWebSecurity
-@Profile("basic")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Value("${admin.user}")
 	private String adminUser;
 	@Value("${admin.pass}")
 	private String adminPass;
-		
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().authorizeRequests()
-		.anyRequest().authenticated()
-        .and().httpBasic()
-		;
+		http.authorizeRequests() //
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //
+				.mvcMatchers(HttpMethod.GET, "/sessions").permitAll() //
+				.mvcMatchers(HttpMethod.GET, "/sessions/withAttendeeCount")
+				.authenticated() //
+				.mvcMatchers(HttpMethod.GET, "/sessions/{id}").permitAll() //
+				.mvcMatchers(HttpMethod.GET, "/attendees/{id}/sessions").permitAll() //
+				.mvcMatchers(HttpMethod.POST, "/attendees").permitAll() //
+				.mvcMatchers(HttpMethod.PUT, "/attendees/{id}").permitAll() //
+				.mvcMatchers(HttpMethod.GET, "/speakers/{id}/image").permitAll() //
+				.anyRequest().authenticated() //
+				.and() //
+				.exceptionHandling()
+				.authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // To prevent popup when basic authentication fails
+				.and() //
+				.httpBasic() //
+				.and() //
+				.csrf().disable() //
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
-	
-	//authorizeRequests()でやりたかったけど、permitAllでもBasic認証が要求されるので、ignoring()で対応
-	//https://stackoverflow.com/questions/30366405/how-to-disable-spring-security-for-particular-url
-	@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-        .antMatchers(HttpMethod.OPTIONS, "/**")//To allow Pre-flight [OPTIONS] request from browser
-        .antMatchers(HttpMethod.GET, "/sessions")
-        .regexMatchers(HttpMethod.GET, "/sessions/[0-9a-fA-Z]{8}-.+")
-		.regexMatchers(HttpMethod.GET, "/attendees/.+/sessions")
-		.antMatchers(HttpMethod.POST, "/attendees")
-		.regexMatchers(HttpMethod.PUT, "/attendees/[0-9a-fA-Z]{8}-.+")
-		.regexMatchers(HttpMethod.GET, "/speakers/.+/image")
-		;
-    }
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-		.withUser(adminUser).password(adminPass).roles("ADMIN");
+		auth.inMemoryAuthentication() //
+				.withUser(adminUser).password(adminPass).roles("ADMIN");
 	}
 }

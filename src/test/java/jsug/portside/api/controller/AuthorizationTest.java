@@ -39,7 +39,6 @@ import jsug.portside.api.repository.SpeakerRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("basic")
 @TestPropertySource(properties = {"admin.user=foo", "admin.pass=bar"})
 public class AuthorizationTest {
 
@@ -50,16 +49,16 @@ public class AuthorizationTest {
 	UUID attendeeIdFixture;
 	UUID speakerIdFixture1;
 	UUID speakerIdFixture2;
-	
+
 	ObjectMapper om = new ObjectMapper();
-	
-	
+
+
 	@Autowired
 	SessionRepository sessionRepository;
-	
+
 	@Autowired
 	SpeakerRepository speakerRepository;
-	
+
 	@Autowired
 	AttendeeRepository attendeeRepository;
 
@@ -69,11 +68,11 @@ public class AuthorizationTest {
 	@Before
 	public void setUp() throws Exception {
 		TransactionStatus st = tm.getTransaction(null);
-		
+
 		List<Speaker> speakers = new ArrayList<>();
 		for (int i=0; i<7; i++) {
 			Speaker speaker = createSpeaker(i);
-			speakerRepository.save(speaker);			
+			speakerRepository.save(speaker);
 			speakers.add(speaker);
 			if (i==0) {
 				speakerIdFixture1 = speaker.id;
@@ -81,48 +80,48 @@ public class AuthorizationTest {
 			if (i==1) {
 				speakerIdFixture2 = speaker.id;
 			}
-			
+
 		}
 
-		
+
 		List<Session> sessions = new ArrayList<>();
 		for (int i=0; i<10; i++) {
 			Session session = createSession(i);
-			sessionRepository.save(session);			
+			sessionRepository.save(session);
 			if (i==0) {
 				sessionIdFixture = session.id;
 			}
-			
+
 			session.assignSpeakers(speakers);
-			
+
 			sessions.add(session);
 		}
-		
-		
-		
+
+
+
 		for (int i=0; i<5; i++) {
 			Attendee attendee = createAttendee(i);
 			attendeeRepository.save(attendee);
 			for (Session session : sessions) {
 				session.attended(attendee);
-			}		
+			}
 			if (i==0) {
 				attendeeIdFixture = attendee.id;
 			}
 		}
-		
-		
-		tm.commit(st);	
-		
+
+
+		tm.commit(st);
+
 	}
 	private Session createSession(int i) {
 		Session session = new Session();
 		session.title = "ダミーセッション"+i;
 		session.speaker = "ダミースピーカー"+i;
 		session.description = "ダミー概要"+i;
-		return session;		
+		return session;
 	}
-	
+
 	private Speaker createSpeaker(int i) {
 		Speaker speaker = new Speaker();
 		speaker.name = "名前"+i;
@@ -138,66 +137,66 @@ public class AuthorizationTest {
 
 	@Autowired
 	DataSource ds;
-	
+
 	@After
 	public void tearDown() {
 		TestUtils.resetDb(ds);
 	}
-	
+
 	@Test
 	public void testSession() throws Exception {
 		mvc.perform(get("/sessions")).andExpect(status().isOk());
 		mvc.perform(get("/sessions/"+this.sessionIdFixture)).andExpect(status().isOk());
-		mvc.perform(get("/sessions/withAttendeeCount")).andExpect(status().isUnauthorized());
-		mvc.perform(post("/sessions")).andExpect(status().isUnauthorized());
-		mvc.perform(put("/sessions/"+this.sessionIdFixture)).andExpect(status().isUnauthorized());
-		mvc.perform(delete("/sessions/"+this.sessionIdFixture)).andExpect(status().isUnauthorized());
+		mvc.perform(get("/sessions/withAttendeeCount")).andExpect(status().isForbidden());
+		mvc.perform(post("/sessions")).andExpect(status().isForbidden());
+		mvc.perform(put("/sessions/"+this.sessionIdFixture)).andExpect(status().isForbidden());
+		mvc.perform(delete("/sessions/"+this.sessionIdFixture)).andExpect(status().isForbidden());
 		mvc.perform(options("/sessions")).andExpect(status().isOk());
-		
-		
+
+
 		Session session = createSession(0);
 		session.speakers.add(createSpeaker(0));
 		session.speakers.add(createSpeaker(1));
 		session.speakers.add(createSpeaker(2));
-		String json = om.writeValueAsString(session);		
+		String json = om.writeValueAsString(session);
 		System.out.println(json);
 		mvc.perform(post("/sessions").with(httpBasic("foo","bar")).content(json).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
-		
-		
+
+
 	}
 	@Test
 	public void testAttendee() throws Exception {
-	
-		mvc.perform(get("/attendees")).andExpect(status().isUnauthorized());
+
+		mvc.perform(get("/attendees")).andExpect(status().isForbidden());
 		mvc.perform(get("/attendees/"+this.attendeeIdFixture+"/sessions")).andExpect(status().isOk());
-		
+
 		AttendRequestForm form = new AttendRequestForm();
 		form.email = "foo999@example.com";
 		form.ids.add(this.sessionIdFixture);
-		String json = om.writeValueAsString(form);				
+		String json = om.writeValueAsString(form);
 		mvc.perform(post("/attendees").content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
 		UpdateAttendRequestForm uform = new UpdateAttendRequestForm();
 		uform.ids.add(this.sessionIdFixture);
-		json = om.writeValueAsString(uform);				
+		json = om.writeValueAsString(uform);
 		mvc.perform(put("/attendees/"+attendeeIdFixture).content(json).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent());
 
 		mvc.perform(options("/attendees")).andExpect(status().isOk());
 	}
 	@Test
 	public void testSpeaker() throws Exception {
-	
-		mvc.perform(get("/speakers")).andExpect(status().isUnauthorized());
-		mvc.perform(get("/speakers/"+this.speakerIdFixture1)).andExpect(status().isUnauthorized());
+
+		mvc.perform(get("/speakers")).andExpect(status().isForbidden());
+		mvc.perform(get("/speakers/"+this.speakerIdFixture1)).andExpect(status().isForbidden());
 		mvc.perform(get("/speakers/"+this.speakerIdFixture1+"/image")).andExpect(status().isOk());
-		mvc.perform(post("/speakers")).andExpect(status().isUnauthorized());
-		mvc.perform(put("/speakers/"+this.attendeeIdFixture)).andExpect(status().isUnauthorized());
-		mvc.perform(post("/speakers/"+this.speakerIdFixture1+"/image")).andExpect(status().isUnauthorized());
+		mvc.perform(post("/speakers")).andExpect(status().isForbidden());
+		mvc.perform(put("/speakers/"+this.attendeeIdFixture)).andExpect(status().isForbidden());
+		mvc.perform(post("/speakers/"+this.speakerIdFixture1+"/image")).andExpect(status().isForbidden());
 		mvc.perform(options("/speakers")).andExpect(status().isOk());
-		
-		
+
+
 	}
-	
+
 
 }
