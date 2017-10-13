@@ -151,7 +151,7 @@ public class AuthorizationTest {
 		mvc.perform(post("/sessions")).andExpect(status().isForbidden());
 		mvc.perform(put("/sessions/"+this.sessionIdFixture)).andExpect(status().isForbidden());
 		mvc.perform(delete("/sessions/"+this.sessionIdFixture)).andExpect(status().isForbidden());
-		mvc.perform(options("/sessions")).andExpect(status().isOk());
+		mvc.perform(options("/sessions").header("Origin", "http://foo.com")).andExpect(status().isOk());
 
 
 		Session session = createSession(0);
