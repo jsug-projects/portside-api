@@ -17,7 +17,7 @@ resources:
       api: api.run.pivotal.io
       username: {{cf-username}}
       password: {{cf-password}}
-      organization: AJP
+      organization: APJ
       space: production
       skip_cert_check: true
   - name: slack-alert
