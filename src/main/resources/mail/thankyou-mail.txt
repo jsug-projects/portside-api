@@ -11,6 +11,6 @@
 もしアンケートの内容を変更される場合は、
 以下のURLから変更を行うことができます。
 
-https://portside.springfest.cf/#/sessions?id=[( ${attendee.id} )]
+https://portside.cfapps.io/#/sessions?id=[( ${attendee.id} )]
 
 それでは、当日お待ちしております。
