@@ -62,7 +62,7 @@ public class SpeakerController {
 	
 	@GetMapping("/{id}")
 	public Speaker get(@PathVariable UUID id) {
-		return speakerRepository.findOne(id);
+		return speakerRepository.findById(id).orElse(null);
 	}
 	
 	
@@ -79,7 +79,7 @@ public class SpeakerController {
 	@ResponseStatus(HttpStatus.CREATED)	
 	@Transactional
 	public void registerImage(@PathVariable UUID id, @RequestParam MultipartFile data, @Value("#{request.requestURL}") String url) throws Exception {
-		Speaker speaker = speakerRepository.findOne(id);
+		Speaker speaker = speakerRepository.findById(id).orElse(null);
 		speaker.updateImage(data.getBytes());
 		String imageUrl = url;
 		speaker.updateImageUrl(imageUrl);
@@ -88,7 +88,7 @@ public class SpeakerController {
 	
 	@GetMapping("/{id}/image")
 	public HttpEntity<byte[]> getImage(@PathVariable UUID id) {
-		Speaker speaker = speakerRepository.findOne(id);
+		Speaker speaker = speakerRepository.findById(id).orElse(null);
 		byte[] image = speaker.image; 
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.IMAGE_JPEG);

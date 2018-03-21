@@ -136,7 +136,7 @@ public class AttendeeController {
 					+ Lists.newArrayList(sessions).size());
 		}
 
-		Attendee attendee = attendeeRepository.findOne(id);
+		Attendee attendee = attendeeRepository.findById(id).orElse(null);
 		
 		updateAttend(attendee, sessions);
 		

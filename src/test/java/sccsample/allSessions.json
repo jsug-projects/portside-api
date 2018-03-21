@@ -1,0 +1,572 @@
+[
+	{
+		"id": "11a5a029-2bc7-4892-9c2e-8762a241d91c",
+		"title": "ダミーセッション0",
+		"description": "ダミー概要0",
+		"speaker": "ダミースピーカー0",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "06130def-1db1-4bee-9f23-0b61ab6c5276",
+		"title": "ダミーセッション1",
+		"description": "ダミー概要1",
+		"speaker": "ダミースピーカー1",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "077bf02e-e013-48cc-981e-91ae2a904969",
+		"title": "ダミーセッション2",
+		"description": "ダミー概要2",
+		"speaker": "ダミースピーカー2",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "07375a06-82ad-4069-a090-173a9632b6ff",
+		"title": "ダミーセッション3",
+		"description": "ダミー概要3",
+		"speaker": "ダミースピーカー3",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "4e6798e0-a0e7-4155-a6fc-a73eb55fb734",
+		"title": "ダミーセッション4",
+		"description": "ダミー概要4",
+		"speaker": "ダミースピーカー4",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "e784fc58-66fb-4c1a-a924-36779f99c985",
+		"title": "ダミーセッション5",
+		"description": "ダミー概要5",
+		"speaker": "ダミースピーカー5",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "4d8905db-6127-4c52-a87a-b4afef857708",
+		"title": "ダミーセッション6",
+		"description": "ダミー概要6",
+		"speaker": "ダミースピーカー6",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "9d4cac57-a87f-4101-bc59-8db604d7abc2",
+		"title": "ダミーセッション7",
+		"description": "ダミー概要7",
+		"speaker": "ダミースピーカー7",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "fd3899c4-3084-405c-a87b-520d43f36db0",
+		"title": "ダミーセッション8",
+		"description": "ダミー概要8",
+		"speaker": "ダミースピーカー8",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	},
+	{
+		"id": "4c25b5ab-f19c-4ba5-bdd4-ccbb2c929b5f",
+		"title": "ダミーセッション9",
+		"description": "ダミー概要9",
+		"speaker": "ダミースピーカー9",
+		"speakers": [
+			{
+				"id": "460390e1-73bd-457b-9763-72b63e204e69",
+				"name": "名前0",
+				"belongTo": "所属0",
+				"profile": "プロフィール0",
+				"imageUrl": null
+			},
+			{
+				"id": "e575a733-a5b3-4c1c-b7ea-463e7fc95815",
+				"name": "名前1",
+				"belongTo": "所属1",
+				"profile": "プロフィール1",
+				"imageUrl": null
+			},
+			{
+				"id": "3d0c4918-2f95-476e-b6ef-b05208826386",
+				"name": "名前2",
+				"belongTo": "所属2",
+				"profile": "プロフィール2",
+				"imageUrl": null
+			},
+			{
+				"id": "e205c0cc-42bd-4950-ac59-f6ea2136be16",
+				"name": "名前3",
+				"belongTo": "所属3",
+				"profile": "プロフィール3",
+				"imageUrl": null
+			},
+			{
+				"id": "20b94a72-614b-44aa-84ea-87ffba97dfd8",
+				"name": "名前4",
+				"belongTo": "所属4",
+				"profile": "プロフィール4",
+				"imageUrl": null
+			},
+			{
+				"id": "91ad1eba-5c56-4741-b1ca-0785913468bd",
+				"name": "名前5",
+				"belongTo": "所属5",
+				"profile": "プロフィール5",
+				"imageUrl": null
+			},
+			{
+				"id": "d454f603-b3c1-402c-939d-1fd5f79c8070",
+				"name": "名前6",
+				"belongTo": "所属6",
+				"profile": "プロフィール6",
+				"imageUrl": null
+			}
+		]
+	}
+]

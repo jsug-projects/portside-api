@@ -54,7 +54,7 @@ public class SessionController {
 	
 	@GetMapping("/{id}")
 	public Session getSession(@PathVariable UUID id) {
-		return sessionRepository.findOne(id);
+		return sessionRepository.findById(id).orElse(null);
 	}
 
 	@GetMapping("/withAttendeeCount")
@@ -65,7 +65,7 @@ public class SessionController {
 		return list;
 	}
 
-	
+
 	
 	
 	
@@ -94,7 +94,7 @@ public class SessionController {
 	@Transactional
 	public void updateSession(@Validated @RequestBody Session newSession, @PathVariable UUID id) {
 
-		Session managedSession = sessionRepository.findOne(id);
+		Session managedSession = sessionRepository.findById(id).orElse(null);
 		
 		managedSession.updateState(newSession);
 		
@@ -127,7 +127,7 @@ public class SessionController {
 			throw new RuntimeException("speakers size not valid. expect "+form.speakerIds.size()+" but "+speakers.size());
 		}
 		
-		Session session = sessionRepository.findOne(id);
+		Session session = sessionRepository.findById(id).orElse(null);
 		session.assignSpeakers(speakers);		
 		
 	}
@@ -137,7 +137,7 @@ public class SessionController {
 	@Transactional
 	public void deleteSession(@PathVariable UUID id) {
 		
-		Session session = sessionRepository.findOne(id);		
+		Session session = sessionRepository.findById(id).orElse(null);
 		for (Speaker speaker : session.speakers) {
 			for (Session speakerSession : speaker.sessions) {
 				if (speakerSession != session) {

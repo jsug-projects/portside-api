@@ -1,0 +1,1 @@
+mvnw clean install -Dtest=sccsample.consumer.ui_api_contract.*Test
