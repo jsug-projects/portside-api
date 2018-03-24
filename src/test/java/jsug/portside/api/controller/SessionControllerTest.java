@@ -156,10 +156,11 @@ public class SessionControllerTest {
 	}
 	@Test
 	public void testGetAllSessionWithAttendeeCounts() throws Exception {
-		mvc.perform(get("/sessions/withAttendeeCount"))
+		String body = mvc.perform(get("/sessions/withAttendeeCount"))
 		.andExpect(jsonPath("$", hasSize(10)))
 		.andExpect(jsonPath("$[0].attendeeCount", is(5)))
-		.andExpect(jsonPath("$[0].session.speakers", hasSize(7)));
+		.andExpect(jsonPath("$[0].session.speakers", hasSize(7))).andReturn().getResponse().getContentAsString();
+		System.out.println(body);
 	}
 	
 	@Test

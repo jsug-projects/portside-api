@@ -33,7 +33,7 @@ import jsug.portside.api.repository.SessionRepository;
 import jsug.portside.api.repository.SpeakerRepository;
 
 @RunWith(SpringRestPactRunner.class)
-@Provider("portside-api")
+@Provider("portside-api-session")
 @PactFolder("./target/pacts")
 @SpringBootTest(classes=PortsideApplication.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 public class SessionContractProviderTest {
