@@ -1,4 +1,4 @@
-package sccsample.consumer.ui_api_contract;
+package sccsample.consumer.admin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @AutoConfigureStubRunner(ids = {"jsug.portside:portside-api:+:stubs:8999"},
         stubsMode = StubRunnerProperties.StubsMode.LOCAL)
 @DirtiesContext
-public class SessionContractConsumerTest {
+public class AdminSessionContractTest {
     @Configuration
     static class Config {
 
@@ -24,8 +24,7 @@ public class SessionContractConsumerTest {
     @Test
     public void foo() {
         RestTemplate rt = new RestTemplate();
-        String res = rt.getForObject("http://localhost:8999/sessions", String.class);
-        System.out.println("res="+res);
+        rt.getForObject("http://localhost:8999/sessions/withAttendeeCount", String.class);
     }
 
 }

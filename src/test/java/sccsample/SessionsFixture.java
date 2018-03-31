@@ -1,4 +1,4 @@
-package sccsample.provider.ui_api_contract;
+package sccsample;
 
 import jsug.portside.api.entity.Attendee;
 import jsug.portside.api.entity.Session;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SessionsFixture {
 
-    static void createData(PlatformTransactionManager tm,
+    public static void createData(PlatformTransactionManager tm,
                            SessionRepository sessionRepository,
                            SpeakerRepository speakerRepository,
                            AttendeeRepository attendeeRepository

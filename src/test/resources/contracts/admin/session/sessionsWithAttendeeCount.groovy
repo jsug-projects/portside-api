@@ -1,9 +1,9 @@
-package contracts
+package contracts.admin.session
 
 org.springframework.cloud.contract.spec.Contract.make {
     request {
         method 'GET'
-        url '/sessions'
+        url '/sessions/withAttendeeCount'
     }
     response {
         status 200
@@ -12,6 +12,7 @@ org.springframework.cloud.contract.spec.Contract.make {
         }
         body([
                 [
+					"session":[
                         "id": $(anyUuid()),
                         "title": $(anyNonBlankString()),
                         "description":$(anyNonBlankString()),
@@ -25,6 +26,8 @@ org.springframework.cloud.contract.spec.Contract.make {
                                         "imageUrl":$(null),//null でも 文字列でも良いという指定がしていな
                                 ]
                         ]
+					],
+					"attendeeCount":$(anyNonBlankString())
                 ],
         ])
         testMatchers {
@@ -32,7 +35,7 @@ org.springframework.cloud.contract.spec.Contract.make {
                 minOccurrence(10)
                 maxOccurrence(10)
             })
-            jsonPath('$[0].speakers', byType {
+            jsonPath('$[0].session.speakers', byType {
                 minOccurrence(7)
                 maxOccurrence(7)
             })

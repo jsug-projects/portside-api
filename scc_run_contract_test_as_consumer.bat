@@ -1,1 +1,2 @@
-mvnw clean install -Dtest=sccsample.consumer.ui_api_contract.*Test
+call mvnw clean install -DskipTests
+call mvnw test -Dtest=sccsample.consumer..*.*Test

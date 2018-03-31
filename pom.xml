@@ -163,7 +163,17 @@
 	            <version>2.0.0.M7</version>
 	            <extensions>true</extensions>
 	            <configuration>
-	                <baseClassForTests>sccsample.provider.ui_api_contract.ContractIntegrationTestBase</baseClassForTests>
+		            <testMode>EXPLICIT</testMode>
+                    <baseClassMappings>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*ui.*</contractPackageRegex>
+                            <baseClassFQN>sccsample.provider.ui.UiContractTestBase</baseClassFQN>
+                        </baseClassMapping>
+                        <baseClassMapping>
+                            <contractPackageRegex>.*admin.*</contractPackageRegex>
+                            <baseClassFQN>sccsample.provider.admin.AdminContractTestBase</baseClassFQN>
+                        </baseClassMapping>
+                    </baseClassMappings>
 	            </configuration>
 	        </plugin>
         </plugins>

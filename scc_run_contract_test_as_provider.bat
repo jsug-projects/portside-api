@@ -1,1 +1,1 @@
-mvnw clean install -Dtest=sccsample.provider.ui_api_contract.*Test
+call mvnw test -Dtest=org.springframework.cloud.contract.verifier.tests..*.*Test
