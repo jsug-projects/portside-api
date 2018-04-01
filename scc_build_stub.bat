@@ -1,1 +1,0 @@
-call mvnw clean install -DskipTests

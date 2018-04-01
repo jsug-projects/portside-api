@@ -1,4 +1,4 @@
-package sccsample.provider.admin;
+package sccsample.provider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,22 @@ import jsug.portside.api.controller.SessionController;
 import jsug.portside.api.dto.SessionWithAttendeeCountDto;
 import jsug.portside.api.entity.Session;
 import jsug.portside.api.entity.Speaker;
+import jsug.portside.api.repository.SessionRepository;
+import jsug.portside.api.repository.SpeakerRepository;
 import mockit.Expectations;
 import mockit.Injectable;
+import mockit.Tested;
 
-public abstract class AdminContractTestBaseControllerMock {
+public abstract class ContractTestBaseRepositoryMock {
+
+	@Tested(availableDuringSetup = true)
+	SessionController sessionController;
 
 	@Injectable
-	SessionController sessionController;
+	SessionRepository sessionRepository;
+
+	@Injectable
+	SpeakerRepository speakerRepository;
 
     @Before
     public void setup() {
@@ -26,7 +35,7 @@ public abstract class AdminContractTestBaseControllerMock {
         	for (int i=0; i<10; i++) {
         		list.add(createSessionWithAttendeeCountDto(i));
         	}
-        	sessionController.getAllSessionWithAttendeeCounts();
+        	sessionRepository.findSessionsWithAttendeeCount();
         	result = list;
 		}};
     	

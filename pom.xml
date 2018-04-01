@@ -164,14 +164,15 @@
 	            <extensions>true</extensions>
 	            <configuration>
 		            <testMode>EXPLICIT</testMode>
+		            <basePackageForTests>scssample.provider</basePackageForTests>
                     <baseClassMappings>
                         <baseClassMapping>
                             <contractPackageRegex>.*ui.*</contractPackageRegex>
-                            <baseClassFQN>sccsample.provider.ui.UiContractTestBase</baseClassFQN>
+                            <baseClassFQN>sccsample.provider.ContractTestBase</baseClassFQN>
                         </baseClassMapping>
                         <baseClassMapping>
                             <contractPackageRegex>.*admin.*</contractPackageRegex>
-                            <baseClassFQN>sccsample.provider.admin.AdminContractTestBase</baseClassFQN>
+                            <baseClassFQN>sccsample.provider.ContractTestBase</baseClassFQN>
                         </baseClassMapping>
                     </baseClassMappings>
 	            </configuration>

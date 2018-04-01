@@ -4,6 +4,9 @@ org.springframework.cloud.contract.spec.Contract.make {
     request {
         method 'GET'
         url '/sessions/withAttendeeCount'
+        headers {
+            header("Authorization","Basic Zm9vOmJhcg==")
+        }
     }
     response {
         status 200
